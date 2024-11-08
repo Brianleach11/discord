@@ -1,6 +1,7 @@
 import { mutation } from "../_generated/server";
 import { v } from "convex/values";
 import { authenticatedMutation, authenticatedQuery } from "./helpers";
+import { internal } from "../_generated/api";
 
 export const list = authenticatedQuery({
   args: {
@@ -50,10 +51,14 @@ export const create = authenticatedMutation({
     if (!member) {
       throw new Error("You are not a member of this direct message");
     }
-    return await ctx.db.insert("messages", {
+    await ctx.db.insert("messages", {
       directMessage,
       sender: ctx.user._id,
       content,
+    });
+    await ctx.scheduler.runAfter(0, internal.functions.typing.remove, {
+      directMessage,
+      user: ctx.user._id,
     });
   },
 });
