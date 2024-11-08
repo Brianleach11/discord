@@ -29,8 +29,8 @@ export const listAccepted = authenticatedQuery({
         q.eq("user2", ctx.user._id).eq("status", "accepted")
       )
       .collect();
-    const friendsWithUser1 = await mapWithUsers(ctx, friends1, "user1");
-    const friendsWithUser2 = await mapWithUsers(ctx, friends2, "user2");
+    const friendsWithUser1 = await mapWithUsers(ctx, friends1, "user2");
+    const friendsWithUser2 = await mapWithUsers(ctx, friends2, "user1");
     return [...friendsWithUser1, ...friendsWithUser2];
   },
 });
