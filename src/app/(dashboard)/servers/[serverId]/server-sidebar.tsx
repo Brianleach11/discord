@@ -31,17 +31,13 @@ export function ServerSidebar({ id }: { id: Id<"servers"> }) {
   const router = useRouter();
   const handleChannelDelete = async (id: Id<"channels">) => {
     try {
-      if (server) {
-        router.push(
-          `/servers/${server._id}/channels/${server?.defaultChannelId}`
-        );
-      }
       await removeChannel({ id });
+      if (server) {
+        router.push(`/servers/${server._id}/channels/${server.defaultChannelId}`);
+      }
       toast.success("Channel deleted");
-    } catch (error) {
-      toast.error("Failed to delete channel", {
-        description: error instanceof Error ? error.message : "Unknown error",
-      });
+    } catch (_) {
+      toast.error("Failed to delete channel");
     }
   };
   return (
@@ -65,9 +61,13 @@ export function ServerSidebar({ id }: { id: Id<"servers"> }) {
                     {channel.name}
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuAction onClick={() => handleChannelDelete(channel._id)}>
-                  <TrashIcon />
-                </SidebarMenuAction>
+                {channel._id !== server?.defaultChannelId && (
+                  <SidebarMenuAction
+                    onClick={() => handleChannelDelete(channel._id)}
+                  >
+                    <TrashIcon />
+                  </SidebarMenuAction>
+                )}
               </SidebarMenuItem>
             ))}
           </SidebarMenu>

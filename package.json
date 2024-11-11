@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "convex": "^1.17.0",
     "convex-helpers": "^0.1.63",
+    "livekit-client": "^2.6.0",
     "livekit-server-sdk": "^2.8.1",
     "lucide-react": "^0.454.0",
     "next": "15.0.3",

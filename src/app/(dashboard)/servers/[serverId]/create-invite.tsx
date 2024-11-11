@@ -45,7 +45,7 @@ export function CreateInvite({ serverId }: { serverId: Id<"servers"> }) {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className="mt-4">
         <Button variant="outline" size="sm">
           Create Invite
         </Button>
