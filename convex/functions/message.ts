@@ -1,5 +1,9 @@
 import { v } from "convex/values";
-import { assertMember, authenticatedMutation, authenticatedQuery } from "./helpers";
+import {
+  assertChannelMember,
+  authenticatedMutation,
+  authenticatedQuery,
+} from "./helpers";
 import { internal } from "../_generated/api";
 
 export const list = authenticatedQuery({
@@ -7,7 +11,7 @@ export const list = authenticatedQuery({
     dmOrChannelId: v.union(v.id("directMessages"), v.id("channels")),
   },
   handler: async (ctx, { dmOrChannelId }) => {
-    await assertMember(ctx, dmOrChannelId);
+    await assertChannelMember(ctx, dmOrChannelId);
     const messages = await ctx.db
       .query("messages")
       .withIndex("by_dmOrChannelId", (q) =>
@@ -18,7 +22,7 @@ export const list = authenticatedQuery({
     return await Promise.all(
       messages.map(async (message) => {
         const sender = await ctx.db.get(message.sender);
-        const attachment = message.attachment 
+        const attachment = message.attachment
           ? await ctx.storage.getUrl(message.attachment)
           : undefined;
         return {
@@ -38,7 +42,7 @@ export const create = authenticatedMutation({
     attachment: v.optional(v.id("_storage")),
   },
   handler: async (ctx, { dmOrChannelId, content, attachment }) => {
-    await assertMember(ctx, dmOrChannelId);
+    await assertChannelMember(ctx, dmOrChannelId);
     await ctx.db.insert("messages", {
       dmOrChannelId,
       sender: ctx.user._id,

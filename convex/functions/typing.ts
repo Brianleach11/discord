@@ -1,5 +1,9 @@
 import { v } from "convex/values";
-import { assertMember, authenticatedMutation, authenticatedQuery } from "./helpers";
+import {
+  assertChannelMember,
+  authenticatedMutation,
+  authenticatedQuery,
+} from "./helpers";
 import { internal } from "../_generated/api";
 import { internalMutation } from "../_generated/server";
 
@@ -8,7 +12,7 @@ export const list = authenticatedQuery({
     dmOrChannelId: v.union(v.id("directMessages"), v.id("channels")),
   },
   handler: async (ctx, { dmOrChannelId }) => {
-    await assertMember(ctx, dmOrChannelId);
+    await assertChannelMember(ctx, dmOrChannelId);
     const typingIndicators = await ctx.db
       .query("typingIndicators")
       .withIndex("by_dmOrChannelId", (q) =>
@@ -31,7 +35,7 @@ export const upsert = authenticatedMutation({
     dmOrChannelId: v.union(v.id("directMessages"), v.id("channels")),
   },
   handler: async (ctx, { dmOrChannelId }) => {
-    await assertMember(ctx, dmOrChannelId);
+    await assertChannelMember(ctx, dmOrChannelId);
     const existing = await ctx.db
       .query("typingIndicators")
       .withIndex("by_user_dmOrChannelId", (q) =>

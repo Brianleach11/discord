@@ -38,7 +38,9 @@ export default defineSchema({
     name: v.string(),
     serverId: v.id("servers"),
     //type: v.union(v.literal("text"), v.literal("audio"), v.literal("video")),
-  }).index("by_serverId", ["serverId"]),
+  })
+    .index("by_serverId", ["serverId"])
+    .index("by_serverId_name", ["serverId", "name"]),
 
   serverMembers: defineTable({
     serverId: v.id("servers"),
@@ -64,7 +66,7 @@ export default defineSchema({
     dmOrChannelId: v.union(v.id("directMessages"), v.id("channels")),
     user: v.id("users"),
     expiresAt: v.number(),
-    })
+  })
     .index("by_dmOrChannelId", ["dmOrChannelId"])
     .index("by_user_dmOrChannelId", ["user", "dmOrChannelId"]),
 });

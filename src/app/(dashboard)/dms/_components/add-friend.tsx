@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -9,30 +8,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { SidebarGroupAction } from "@/components/ui/sidebar";
-import { PlusIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
-import { useState } from "react";
-import { api } from "../../../../convex/_generated/api";
+import { api } from "../../../../../convex/_generated/api";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export function NewDirectMessage() {
+export function AddFriend() {
   const [open, setOpen] = useState<boolean>(false);
-  const createDirectMessage = useMutation(api.functions.dm.create);
-  const router = useRouter();
-
+  const createFriendRequest = useMutation(
+    api.functions.friend.createFriendRequest
+  );
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const id = await createDirectMessage({
-        username: e.currentTarget.username.value,
-      });
-      router.push(`/dashboard/dms/${id}`);
+      await createFriendRequest({ username: e.currentTarget.username.value });
+      toast.success("Friend request sent");
       setOpen(false);
     } catch (error) {
-      toast.error("Failed to start direct message", {
+      toast.error("Failed to send friend request", {
         description: error instanceof Error ? error.message : "Unknown error",
       });
     }
@@ -40,16 +36,13 @@ export function NewDirectMessage() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <SidebarGroupAction>
-          <PlusIcon />
-          <span className="sr-only">New Direct Message</span>
-        </SidebarGroupAction>
+        <Button size="sm">Add Friend</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Direct Message</DialogTitle>
+          <DialogTitle>Add Friend</DialogTitle>
           <DialogDescription>
-            Enter a username to start a direct message.
+            You can add a friend by their username.
           </DialogDescription>
         </DialogHeader>
         <form className="contents" onSubmit={handleSubmit}>
@@ -58,7 +51,7 @@ export function NewDirectMessage() {
             <Input id="username" type="text" />
           </div>
           <DialogFooter>
-            <Button>Start Direct Message</Button>
+            <Button>Send Friend Request</Button>
           </DialogFooter>
         </form>
       </DialogContent>

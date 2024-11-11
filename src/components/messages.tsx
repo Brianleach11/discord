@@ -1,3 +1,5 @@
+"use client";
+
 import { Id } from "../../convex/_generated/dataModel";
 import { ScrollArea } from "./ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

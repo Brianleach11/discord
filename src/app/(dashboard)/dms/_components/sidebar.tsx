@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,12 +22,11 @@ import { SignOutButton } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { LogOutIcon, User2Icon } from "lucide-react";
 import Link from "next/link";
-import { api } from "../../../../convex/_generated/api";
+import { api } from "../../../../../convex/_generated/api";
 import { NewDirectMessage } from "./new-direct-message";
 import { usePathname } from "next/navigation";
 
-
-export function DashboardSidebar() {
+export function DMSidebar() {
   const user = useQuery(api.functions.user.get);
   const directMessages = useQuery(api.functions.dm.list);
   const pathname = usePathname();
@@ -36,7 +36,7 @@ export function DashboardSidebar() {
   }
 
   return (
-    <Sidebar>
+    <Sidebar className="left-12">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -57,7 +57,10 @@ export function DashboardSidebar() {
             <SidebarMenu>
               {directMessages?.map((directMessage) => (
                 <SidebarMenuItem key={directMessage._id}>
-                  <SidebarMenuButton asChild isActive={pathname === `/dms/${directMessage._id}`}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === `/dms/${directMessage._id}`}
+                  >
                     <Link href={`/dms/${directMessage._id}`}>
                       <Avatar className="size-6">
                         <AvatarImage src={directMessage.user.image} />
@@ -65,7 +68,9 @@ export function DashboardSidebar() {
                           {directMessage.user.username[0].toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
-                      <p className="font-medium">{directMessage.user.username}</p>
+                      <p className="font-medium">
+                        {directMessage.user.username}
+                      </p>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
