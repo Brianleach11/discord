@@ -45,7 +45,7 @@ export default function JoinPage({
             </Authenticated>
           <Unauthenticated>
             <SignInButton forceRedirectUrl={`/join/${id}`}>
-              Sign In to Join
+              <Button>Sign In to Join</Button>
             </SignInButton>
           </Unauthenticated>
           <Button variant="secondary" asChild>

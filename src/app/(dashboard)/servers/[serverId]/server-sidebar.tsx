@@ -7,6 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
@@ -19,6 +21,7 @@ import Link from "next/link";
 import { TrashIcon } from "lucide-react";
 import { CreateChannel } from "./create-channel";
 import { toast } from "sonner";
+import { Voice } from "./voice";
 
 export function ServerSidebar({ id }: { id: Id<"servers"> }) {
   const server = useQuery(api.functions.server.get, { id });
@@ -70,6 +73,17 @@ export function ServerSidebar({ id }: { id: Id<"servers"> }) {
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <Voice serverId={id} />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarFooter>
     </Sidebar>
   );
 }
