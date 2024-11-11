@@ -3,9 +3,9 @@
 import {
   PendingFriendsList,
   AcceptedFriendsList,
-} from "./_components/friends-list";
+} from "./dms/_components/friends-list";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AddFriend } from "./_components/add-friend";
+import { AddFriend } from "./dms/_components/add-friend";
 export default function FriendsPage() {
   return (
     <div className="flex-1 flex-col flex divide-y">
