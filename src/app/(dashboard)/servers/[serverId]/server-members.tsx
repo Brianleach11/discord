@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 export function ServerMembers({ id }: { id: Id<"servers"> }) {
   const members = useQuery(api.functions.server.members, { id });
   return (
-    <div className="flex flex-col max-w-80 w-full border-l p-4 bg-muted">
+    <div className="flex flex-col max-w-60 w-full border-l p-4 bg-muted">
       <ScrollArea className="h-[calc(100vh-5rem)]">
         {members?.map((member) => (
           <div className="flex items-center gap-2" key={member._id}>
