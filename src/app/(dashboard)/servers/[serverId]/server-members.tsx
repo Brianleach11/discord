@@ -5,6 +5,8 @@ import { api } from "../../../../../convex/_generated/api";
 import { CreateInvite } from "./create-invite";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+const characterFaces = [":)", ":(", ":D", ":P", ":O", ":|", ";)", ";)"];
+
 export function ServerMembers({ id }: { id: Id<"servers"> }) {
   const members = useQuery(api.functions.server.members, { id });
   return (
@@ -16,7 +18,7 @@ export function ServerMembers({ id }: { id: Id<"servers"> }) {
               <AvatarImage src={member.image} />
               <AvatarFallback>{member.username[0]}</AvatarFallback>
             </Avatar>
-            <p className="text-sm font-medium">{member.username}</p>
+            <p className="text-sm font-medium">{member.username} {characterFaces[Math.floor(Math.random() * characterFaces.length)]}</p>
           </div>
         ))}
       </ScrollArea>
